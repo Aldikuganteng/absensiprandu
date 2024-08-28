@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulir Absensi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 100%; /* Atau gunakan max-width */
+            max-width: 100%; /* Agar tidak melebihi lebar layar */
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        h2 {
+            text-align: center;
+        }
+        input[type="text"], select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+            color: green;
+        }
+        .dashboard-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            text-decoration: none;
+            color: #007bff;
+        }
+        .dashboard-link:hover {
+            text-decoration: underline;
+        }
+        .class-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .class-buttons button {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            width: 23%;
+            margin-bottom: 10px;
+        }
+        .class-buttons button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Formulir Absensi</h2>
+        
+        <!-- Tombol untuk memilih kelas -->
+        <div class="class-buttons">
+            <button onclick="selectClass('X1')">X1</button>
+            <button onclick="selectClass('X2')">X2</button>
+            <button onclick="selectClass('X3')">X3</button>
+            <button onclick="selectClass('X4')">X4</button>
+            <button onclick="selectClass('X5')">X5</button>
+            <button onclick="selectClass('X6')">X6</button>
+            <button onclick="selectClass('X7')">X7</button>
+            <button onclick="selectClass('X8')">X8</button>
+        </div>
+
+        <!-- Formulir absensi -->
+        <form id="absenForm">
+            <label for="kelas">Kelas:</label>
+            <select id="kelas" name="kelas" required>
+                <option value="">Pilih Kelas</option>
+                <option value="X1">X1</option>
+                <option value="X2">X2</option>
+                <option value="X3">X3</option>
+                <option value="X4">X4</option>
+                <option value="X5">X5</option>
+                <option value="X6">X6</option>
+                <option value="X7">X7</option>
+                <option value="X8">X8</option>
+            </select>
+
+            <label for="nama">Nama:</label>
+            <input type="text" id="nama" name="nama" required>
+
+            <input type="submit" value="Submit">
+        </form>
+        <div id="message" class="message"></div>
+        <a href="dashboard.html" class="dashboard-link">Lihat Dashboard</a>
+    </div>
+
+    <script>
+        function selectClass(kelas) {
+            document.getElementById('kelas').value = kelas;
+        }
+
+        document.getElementById('absenForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const kelas = document.getElementById('kelas').value;
+            const nama = document.getElementById('nama').value;
+            const waktuAbsen = new Date().toLocaleString();
+
+            // Mendapatkan data yang sudah ada di localStorage
+            const absensi = JSON.parse(localStorage.getItem('absensi')) || [];
+
+            // Menambahkan data baru
+            absensi.push({ kelas, nama, waktuAbsen });
+
+            // Menyimpan kembali ke localStorage
+            localStorage.setItem('absensi', JSON.stringify(absensi));
+
+            // Menampilkan pesan
+            document.getElementById('message').innerText = `Terima kasih telah absen, ${nama} dari kelas ${kelas}!`;
+
+            // Mengosongkan input setelah submit
+            document.getElementById('kelas').value = '';
+            document.getElementById('nama').value = '';
+        });
+    </script>
+</body>
+</html>
